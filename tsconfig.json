@@ -10,6 +10,9 @@
     "strictFunctionTypes": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": [
+      "@cloudflare/workers-types"
+    ]
   }
 }

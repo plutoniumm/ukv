@@ -1,3 +1,5 @@
+type browserStorage = typeof localStorage | typeof sessionStorage;
+
 interface SyncStore {
   get (key: string): any;
   set (key: string, value: any): boolean;
@@ -15,3 +17,10 @@ interface AsyncStore {
 };
 
 type Store = SyncStore | AsyncStore;
+
+interface KVBody {
+  key: string;
+  value: string;
+  expiration?: number;
+  expiration_ttl?: number;
+};

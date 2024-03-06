@@ -1,12 +1,11 @@
-// localStorage
-export const ls: Store = {
+const generate = (storage: browserStorage): Store => ({
   set (key: string, value: any) {
     value = typeof value === 'string' ? value : JSON.stringify(value);
-    localStorage.setItem(key, JSON.stringify(value));
+    storage.setItem(key, JSON.stringify(value));
     return true;
   },
   get (key: string) {
-    let value = localStorage.getItem(key);
+    let value = storage.getItem(key);
     if (value === null) {
       return null;
     };
@@ -17,45 +16,17 @@ export const ls: Store = {
     return value;
   },
   del (key: string) {
-    localStorage.removeItem(key);
+    storage.removeItem(key);
     return true;
   },
   list () {
-    return Object.keys(localStorage);
+    return Object.keys(storage);
   },
   burn () {
-    localStorage.clear();
+    storage.clear();
     return true;
   }
-};
+});
 
-// sessionStorage
-export const ss: Store = {
-  set (key: string, value: any) {
-    value = typeof value === 'string' ? value : JSON.stringify(value);
-    sessionStorage.setItem(key, JSON.stringify(value));
-    return true;
-  },
-  get (key: string) {
-    let value = sessionStorage.getItem(key);
-    if (value === null) {
-      return null;
-    };
-
-    try {
-      value = JSON.parse(value);
-    } catch (e) { /* ignore*/ };
-    return value;
-  },
-  del (key: string) {
-    sessionStorage.removeItem(key);
-    return true;
-  },
-  list () {
-    return Object.keys(sessionStorage);
-  },
-  burn () {
-    sessionStorage.clear();
-    return true;
-  }
-};
+export const ls = generate(localStorage);
+export const ss = generate(sessionStorage);
