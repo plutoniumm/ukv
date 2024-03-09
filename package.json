@@ -1,15 +1,18 @@
 {
-  "name": "keyvm",
-  "version": "1.0.0",
-  "description": "",
+  "name": "ukv",
+  "version": "0.1.0",
+  "description": "General KV with consistent API",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "plutoniumm",
   "license": "ISC",
   "dependencies": {
     "@cloudflare/workers-types": "^4.20240222.0"
+  },
+  "optionalDependencies": {
+    "hono": "^4.0.10"
   }
 }
