@@ -1,22 +1,32 @@
 const generate = (storage: browserStorage): Store => ({
-  set (key: string, value: any) {
-    value = typeof value === 'string' ? value : JSON.stringify(value);
-    storage.setItem(key, JSON.stringify(value));
+  set (bodies: KVMini[]) {
+    for (let i = 0; i < bodies.length; i++) {
+      bodies[i].value =
+        typeof bodies[i].value === 'string'
+          ? bodies[i].value
+          : JSON.stringify(bodies[i].value);
+      storage.setItem(bodies[i].key, bodies[i].value);
+    }
     return true;
   },
-  get (key: string) {
-    let value = storage.getItem(key);
-    if (value === null) {
-      return null;
+  get (...key: string[]) {
+    if (key.length === 1) {
+      return storage.getItem(key[0]);
     };
 
-    try {
-      value = JSON.parse(value);
-    } catch (e) { /* ignore*/ };
+    let value = key
+      .map((e: any) => storage.getItem(e));
+
+    for (let i = 0; i < value.length; i++) {
+      try {
+        if (value[i] === null) continue;
+        value[i] = JSON.parse(value[i]);
+      } catch (e) { /* ignore*/ };
+    };
     return value;
   },
-  del (key: string) {
-    storage.removeItem(key);
+  del (...key: string[]) {
+    key.map((e: any) => storage.removeItem(e));
     return true;
   },
   list () {

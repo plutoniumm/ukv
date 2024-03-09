@@ -33,56 +33,65 @@ class Account {
   }
 
   async #REQ (url: string, options: RequestInit) {
-    let res = null, error = null;
-    try {
-      res = fetch(url, options).then(r => r.json())
-    } catch (err) {
-      error = err;
+    const res = await fetch(url, options);
+    const type = res.headers.get('content-type');
+    if (type?.includes('application/json')) {
+      return await res.json();
+    } else {
+      return await res.text();
     }
-
-    return [res, error];
   };
 
-  async get (keys: string[]) {
+  // body = [{
+  //   "base64": false,
+  //   "key": "My-Key",
+  //   "expiration": 1578435000,
+  //   "expiration_ttl": 300,
+  //   "metadata": { "someMetadataKey": "someMetadataValue" },
+  //   "value": "Some string"
+  // }]
+
+
+  async get (...keys: string[]) {
     const options = Options(this.#token, 'GET');
     return Promise.all(
       keys.map((e: string) =>
-        this.#REQ(`${this.#root}/${e}`, options)
+        this.#REQ(`${this.#root}/values/${e}`, options)
       )
     );
   }
 
   async set (bodies: KVBody[]) {
+    bodies = bodies.map(e => {
+      if (e.metadata === undefined) e.metadata = {}
+      return e;
+    })
     const url = `${this.#root}/bulk`;
-    const options = Options(this.#token, 'POST', bodies);
+    const options = Options(this.#token, 'PUT', bodies);
     return await this.#REQ(url, options);
   }
 
   async list () {
     const url = `${this.#root}/keys`;
     const options = Options(this.#token, 'GET');
-    return await this.#REQ(url, options);
+    let res = await this.#REQ(url, options) as any;
+    if (res?.result === undefined) {
+      throw new Error("Error: " + JSON.stringify(res));
+    }
+    return res.result.map((e: any) => e.name);
   }
 
-  async del (keys: string[]) {
+  async del (...keys: string[]) {
     const url = `${this.#root}/bulk`;
     const options = Options(this.#token, 'DELETE', keys);
     return await this.#REQ(url, options);
   }
 
   async burn () {
-    let [keys, error] = await this.list();
-    if (error) {
-      return false;
-    } else {
-      keys = keys.result;
-    }
+    let keys = await this.list();
+    await this.del(...keys);
 
-    [, error] = await this.del(keys);
-    if (error)
-      return [null, error];
-
-    return [true, null];
+    return true;
   }
 }
 
@@ -131,7 +140,7 @@ class Namespace {
   };
 }
 
-export const CF = (...something: any) => {
+export const CF = (...something: any): Store => {
   if (something.length === 1 && something[0].get) {
     return new Namespace(something[0]);
   } else {

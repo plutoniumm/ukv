@@ -1,6 +1,4 @@
-import { CF } from './src/cf';
-import { } from "./env.js"
-
+import { CF } from './src/cloudflare';
 import { Hono } from 'hono';
 
 const app = new Hono();
@@ -30,7 +28,7 @@ app
     const set = await CS.set(new_data);
 
     // delete
-    const del = await CS.del(list[0]);
+    const del = await CS.del(list[0] as string);
 
     return c.text('Hello Cloudflare Workers!')
   })
