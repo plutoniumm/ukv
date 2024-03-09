@@ -1,5 +1,7 @@
 # ukv
 
+!> Work in progress
+
 ## Everything is Storage
 A Store type has a general api which unifies the api format across many storage types
 
@@ -34,7 +36,7 @@ SS.list();
 ```ts
 import { CF } from 'ukv/cloudflare';
 
-const cf = new CF('ACCOUNT_ID', 'NAMESPACE_ID', 'API_KEY');
+const cf = CF('ACCOUNT_ID', 'NAMESPACE_ID', 'API_KEY');
 
 // use the methods directly
 cf.set('key', 'value');
@@ -45,7 +47,7 @@ cf.list();
 ```ts
 import { CF } from 'ukv/cloudflare';
 
-const cf = new CF(KVNAMESPACE);
+const cf = CF(KVNAMESPACE);
 
 // use the methods directly
 cf.get('key');
