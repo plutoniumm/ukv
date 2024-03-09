@@ -1,5 +1,11 @@
 type browserStorage = typeof localStorage | typeof sessionStorage;
 
+type U<T> = T | undefined;
+type N<T> = T | null;
+type UN<T> = T | undefined | null;
+type P<T> = Promise<T>;
+type S<T> = T | Promise<T>;
+
 interface SyncStore {
   get (key: string): any;
   set (key: string, value: any): boolean;

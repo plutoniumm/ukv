@@ -28,5 +28,5 @@ const generate = (storage: browserStorage): Store => ({
   }
 });
 
-export const ls = generate(localStorage);
-export const ss = generate(sessionStorage);
+export const LS = generate(localStorage);
+export const SS = generate(sessionStorage);
