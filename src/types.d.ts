@@ -12,6 +12,7 @@ interface SyncStore {
   del (...key: string[]): boolean;
   list (): string[];
   burn (): boolean;
+  dump (): any[];
 };
 
 interface AsyncStore {
@@ -20,6 +21,7 @@ interface AsyncStore {
   del (...key: string[]): Promise<boolean>;
   list (): Promise<string[]>;
   burn (): Promise<boolean>;
+  dump (): Promise<any[]>;
 };
 
 type Store = SyncStore | AsyncStore;

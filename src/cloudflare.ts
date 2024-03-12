@@ -54,11 +54,18 @@ class Account {
 
   async get (...keys: string[]) {
     const options = Options(this.#token, 'GET');
-    return Promise.all(
+    const values = await Promise.all(
       keys.map((e: string) =>
         this.#REQ(`${this.#root}/values/${e}`, options)
       )
     );
+    for (let i = 0; i < values.length; i++) {
+      try {
+        values[i] = JSON.parse(values[i]);
+      } catch (e) { /*ignore*/ }
+    }
+
+    return values;
   }
 
   async set (bodies: KVBody[]) {
@@ -90,8 +97,12 @@ class Account {
   async burn () {
     let keys = await this.list();
     await this.del(...keys);
-
     return true;
+  }
+
+  async dump () {
+    let keys = await this.list();
+    return await this.get(...keys);
   }
 }
 
@@ -103,9 +114,16 @@ class Namespace {
   }
 
   async get (...keys: string[]) {
-    return Promise.all(
-      keys.map((e: any) => this.ns.get(e))
+    const values = await Promise.all(
+      keys.map((e: string) => this.ns.get(e))
     );
+    for (let i = 0; i < values.length; i++) {
+      try {
+        values[i] = JSON.parse(values[i]);
+      } catch (e) { /*ignore*/ }
+    }
+
+    return values;
   };
 
   d (opts: any): any {
@@ -138,6 +156,11 @@ class Namespace {
     }
     return await this.del(...keys);
   };
+
+  async dump () {
+    let keys = await this.list();
+    return await this.get(...keys);
+  }
 }
 
 export const CF = (...something: any): Store => {

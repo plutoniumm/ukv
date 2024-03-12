@@ -11,6 +11,10 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
     "skipLibCheck": true,
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "types": [
       "@cloudflare/workers-types"
     ]

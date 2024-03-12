@@ -20,6 +20,8 @@ interface Store {
   list(): string[];
   // clear all keys
   burn(): void;
+  // list all keys and values
+  dump(): Record<string, any>;
 }
 ```
 

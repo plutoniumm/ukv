@@ -35,6 +35,9 @@ const generate = (storage: browserStorage): Store => ({
   burn () {
     storage.clear();
     return true;
+  },
+  dump () {
+    return Object.entries(storage);
   }
 });
 
