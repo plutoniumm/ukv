@@ -2,17 +2,17 @@
   "name": "ukv",
   "version": "0.1.0",
   "description": "General KV with consistent API",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test1": "bun local.test.ts",
+    "test2": "wrangler dev"
   },
-  "keywords": [],
   "author": "plutoniumm",
   "license": "ISC",
   "dependencies": {
     "@cloudflare/workers-types": "^4.20240222.0"
   },
-  "optionalDependencies": {
+  "devDependencies": {
     "hono": "^4.0.10"
   }
 }

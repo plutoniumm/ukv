@@ -1,6 +1,8 @@
 # ukv
 
-!> Work in progress
+```sh
+npm install ukv
+```
 
 ## Everything is Storage
 A Store type has a general api which unifies the api format across many storage types

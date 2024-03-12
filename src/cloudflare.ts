@@ -8,7 +8,7 @@ const Options = (token: string, method: string, body?: any) => {
   method = method.toUpperCase();
 
   const body_object: any = { method, headers };
-  if (method === 'POST') {
+  if (method === 'POST' || method === 'PUT') {
     body_object['body'] = JSON.stringify(body);
   };
 

@@ -1,0 +1,10 @@
+name = "ukv"
+
+main = "remote.test.ts"
+send_metrics = false
+workers_dev = false
+compatibility_date = "2022-07-04"
+
+kv_namespaces = [
+  { binding = "NS", id = "", preview_id = "" }
+]
