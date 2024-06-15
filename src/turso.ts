@@ -4,15 +4,12 @@ export class Turso implements Store {
   private turso: any;
   private t: string;
 
-  constructor(url: string, token: string, table: string) {
-    this.turso = createClient({
-      url: url, authToken: token
-    });
+  constructor(url: string, authToken: string, table: string) {
+    this.turso = createClient({ url: url, authToken });
     this.t = table;
   }
-  async get (id: string) {
+  async get (id: any) {
     const sql = "SELECT * FROM " + this.t + " WHERE id = ?";
-    console.log("QUERY: ", sql);
 
     return await this.turso.execute({ sql, args: [id] });
   };
@@ -26,8 +23,7 @@ export class Turso implements Store {
       const args = Object.values(body);
       return await this.turso.execute({ sql, args })
     } else {
-      let args = body.map(e => Object.values(e));
-      args = args.map(e => ({ sql: sql, args: e }));
+      let args = body.map(e => ({ sql, args: Object.values(e) }));
 
       return await this.turso.batch(args);
     }

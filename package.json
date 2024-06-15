@@ -1,11 +1,13 @@
 {
   "name": "ukv",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "General KV with consistent API",
   "main": "src/index.ts",
   "scripts": {
-    "test1": "bun local.test.ts",
-    "test2": "wrangler dev"
+    "test:local": "bun ./tests/local.test.ts",
+    "test:cf": "wrangler dev",
+    "test:turso": "bun ./tests/turso.test.ts",
+    "publish": "npm publish --access public"
   },
   "author": "plutoniumm",
   "license": "ISC",

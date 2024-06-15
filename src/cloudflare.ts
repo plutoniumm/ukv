@@ -132,7 +132,7 @@ class Namespace {
 
   async set (bodies: KVBody[]) {
     let promises = bodies.map((e: any) =>
-      this.ns.put(e.key, e.value, this.d(e.options))
+      this.ns.put(e.key, e.value, this.d(e.metadata))
     );
 
     return await Promise.all(promises);

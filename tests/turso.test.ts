@@ -3,10 +3,6 @@ import { Turso } from '../src/turso';
 
 const CS = new Turso(TURSO_URL, TURSO_AUTH, "notes");
 
-// list
-// const list = await CS.list();
-// console.log("list", list);
-
 // set
 // [ "ID", "name", "full_name", "preview", "date", "body", "category" ],
 // [ "INTEGER", "TEXT", "TEXT", "TEXT", "TEXT", "BLOB", "TEXT" ]
@@ -22,5 +18,13 @@ const new_data = [{
 const set = await CS.set(new_data);
 
 // get
-const data = await CS.get('hi');
+const data = await CS.get(1);
 console.log("get", data);
+
+// delete
+const del = await CS.del(1);
+console.log("delete", del);
+
+// list
+const list = await CS.list();
+console.log("list", list);
