@@ -6,14 +6,21 @@ type UN<T> = T | undefined | null;
 type P<T> = Promise<T>;
 type S<T> = T | Promise<T>;
 
+type setBody = KVBody[] | KVMini[] | KVSQL[];
+
 interface Store {
   get (...key: string[]): S<any>;
-  set (bodies: KVBody[] | KVMini[]): S<boolean>;
+  set (bodies: setBody): S<boolean>;
   del (...key: string[]): S<boolean>;
   list (): S<string[]>;
   burn (): S<boolean>;
   dump (): S<any[]>;
 };
+
+interface KVSQL {
+  id: string | number;
+  [key: string]: any;
+}
 
 interface KVMini {
   key: string;

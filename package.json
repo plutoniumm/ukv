@@ -10,7 +10,8 @@
   "author": "plutoniumm",
   "license": "ISC",
   "dependencies": {
-    "@cloudflare/workers-types": "^4.20240222.0"
+    "@cloudflare/workers-types": "^4.20240222.0",
+    "@libsql/client": "^0.6.2"
   },
   "devDependencies": {
     "hono": "^4.0.10"

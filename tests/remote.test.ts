@@ -1,4 +1,4 @@
-import { CF } from './src/cloudflare';
+import { CF } from '../src/cloudflare';
 import { Hono } from 'hono';
 
 const app = new Hono();

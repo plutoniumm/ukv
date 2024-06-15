@@ -1,5 +1,5 @@
-import { CF } from './src/cloudflare';
-import { ACC_ID, NS_ID, TOKEN } from "./env.js"
+import { ACC_ID, NS_ID, TOKEN } from "../env.js";
+import { CF } from '../src/cloudflare';
 
 const CS = CF(ACC_ID, NS_ID, TOKEN);
 

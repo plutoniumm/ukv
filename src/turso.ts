@@ -1,6 +1,6 @@
 import { createClient } from "@libsql/client/web";
 
-class Turso {
+export class Turso implements Store {
   private turso: any;
   private t: string;
 
@@ -11,39 +11,43 @@ class Turso {
     this.t = table;
   }
   async get (id: string) {
-    return await this.turso.execute({
-      sql: `SELECT * FROM ${this.t} WHERE id = ?`,
-      args: [id],
-    })
+    const sql = "SELECT * FROM " + this.t + " WHERE id = ?";
+    console.log("QUERY: ", sql);
+
+    return await this.turso.execute({ sql, args: [id] });
   };
 
-  async set (body: KVBody | KVMini) {
-    return await this.turso.execute({
-      sql: `INSERT INTO ${this.t} (id, body) VALUES (?, ?)`,
-      args: [body.key, body.value],
-    });
-  }
+  async set (body: KVSQL[]) {
+    const sql = "INSERT INTO notes VALUES (?,?,?,?,?,?,?)";
+
+    if (body.length == 0) {
+      return true;
+    } else if (body.length == 1) {
+      const args = Object.values(body);
+      return await this.turso.execute({ sql, args })
+    } else {
+      let args = body.map(e => Object.values(e));
+      args = args.map(e => ({ sql: sql, args: e }));
+
+      return await this.turso.batch(args);
+    }
+  };
 
   async del (id: U<string>) {
-    return await this.turso.execute({
-      sql: `DELETE FROM ${this.t} WHERE id = ?`,
-      args: [id],
-    });
+    const sql = "DELETE FROM " + this.t + " WHERE id = ?";
+
+    return await this.turso.execute({ sql, args: [id], });
   };
 
   async list () {
-    return await this.turso.execute(`SELECT * FROM ${this.t}`)
-  }
+    const exec = "SELECT * FROM " + this.t;
+    return await this.turso.execute(exec);
+  };
 
   async burn () {
+    throw new Error("Disallowed operation.");
     return false;
   };
 
-  async dump () {
-    return await this.turso.execute(`SELECT * FROM ${this.t}`);
-  };
-}
-
-export const libsql = (url: string, token: string): Store => {
-  return new Turso(url, token);
+  dump = this.list;
 };
